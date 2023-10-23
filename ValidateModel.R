@@ -133,11 +133,16 @@ findOpt <- function(s, type=2, d, tN=3) {
 }
 
 tD <- double()
-tD[4] <- 0.9
-tD[3] <- 0.9
-tD[2] <- 0.9
+tD[4] <- 0.90
+tD[3] <- 0.90
+tD[2] <- 0.98
 tD[1] <- 1
 
+#testing
+sample <-0.01
+run(sample, d=tD, 3)
+
+#validation
 sample <-0.01
 tD <- findOpt(sample, type=4, d=tD, 3)
 tD <- findOpt(sample, type=3, d=tD, 3)

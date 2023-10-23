@@ -64,8 +64,8 @@ quadGram <- tDf(quadGram)
 
 uniCut <- 1000
 biCut <- 5
-triCut <- 2
-quadCut <- 2
+triCut <- 4
+quadCut <- 3
 
 uniGram <- uniGram[uniGram$c > uniCut, ]
 biGram <- biGram[biGram$c > biCut, ]

@@ -2,7 +2,7 @@
 title: "JHU Capstone - NLP"
 output: ioslides_presentation
 author: Dan Mackie
-date: "`r Sys.Date()`"
+date: "22-Oct-2023"
 ---
 
 ```{r setup, include=FALSE}
@@ -31,11 +31,11 @@ This next word prediction application has implemented the Katz-Backoff algorithm
 
 ## Katz-Backoff model tuning
 
-The hardest part of the Katz-Backoff implementation is parameter tuning, in-particular finding optimal values for the ***probability mass discount**.* The probability mass discount factor defines the amount of mass that is paassed from higer-order N-Grams to lower order N-grams, for example a 4-Gram discount factor of 0.8 means that 20% of the probability mass is reserved for 3-Grams. In this implementation the following parameter values were found to be optimal:
+The hardest part of the Katz-Backoff implementation is parameter tuning, in-particular finding optimal values for the ***probability mass discount**.* The probability mass discount factor defines the amount of mass that is passed from higer-order N-Grams to lower order N-grams, for example a 4-Gram discount factor of 0.8 means that 20% of the probability mass is reserved for 3-Grams. In this implementation the following parameter values were found to be optimal:
 
-**Discount factor:** 4-Gram = 0.30, 3-Gram = 0.81, 2-Gram = 0.98, 1-Gram = 1
+**Discount factor:** 4-Gram = 0.9, 3-Gram = 0.9, 2-Gram = 0.98, 1-Gram = 1
 
-**Model Accuracy (Top-3 words):** 25%
+**Model Accuracy (Top-3 words):** 26%
 
 ## Application Implementation
 
