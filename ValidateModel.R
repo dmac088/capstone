@@ -19,7 +19,7 @@ j <- 1
 
 docs <- list()
 end <- length(val)
-pb <- txtProgressBar(min = start, max = end, initial = 1, char = "=", width = NA, "", "", style = 3)
+pb <- txtProgressBar(min = 1, max = end, initial = 1, char = "=", width = NA, "", "", style = 3)
 
 for(i in 1:end) {
   setTxtProgressBar(pb, i)
@@ -49,11 +49,10 @@ aD[1] <- 1
 
 predict <- function(m, s, d, n, itr, hasParent, result = list()) {
   if(is.null(s)) { return() }
-  s <- tolower(s)
-  s <- stripwhitespace(s)
-  s <- removePunctuation(s)
-  s <- lemmatize_words(s)
-  
+  # s <- tolower(s)
+  # s <- stripWhitespace(s)
+  # s <- removePunctuation(s)
+  # s <- lemmatize_words(s)
   ls <- strsplit(s, " +")
   t <- ifelse(itr > 1, lapply(ls, tail, itr-1), sapply(ls, tail, itr))
   salt <- '#UNIGRAM#'
@@ -72,6 +71,7 @@ predict <- function(m, s, d, n, itr, hasParent, result = list()) {
   if(itr == 1) {
     result <- gTN(result, n * 2) 
     wrd <- gN(unique(names(result)), n)
+    return(wrd)
   }
   predict(m, s, d, n, itr-1, hasParent, result)
 }
@@ -86,13 +86,19 @@ run <- function(spct = 0.001, tN = 3, d) {
   end <- floor(length(valSmpl))
   print(paste('document count:', end))
   pb <- txtProgressBar(min = 1, max = end, initial = 1, char = "=", width = NA, "", "", style = 3)
-  for(i in i: end) {
+  for(i in 1:end) {
     setTxtProgressBar(pb, i)
     l <- valSmpl[[i]]
     for(e in 1:length(l)) {
       g <- NA
-      if(e > 3) {
+      if(e == 4) {
         g <- paste(l[e-2], " ", l[e-1], " ", l[e], sep='')
+      }
+      if(e == 3) {
+        g <- paste(l[e-1], " ", l[e], sep='')
+      }
+      if(e == 2) {
+        g <- l[e]
       }
       aNw <- l[e+1]
       if(!is.na(aNw) & !is.na(g)) {
@@ -111,7 +117,7 @@ run <- function(spct = 0.001, tN = 3, d) {
   print(paste("Top-", tN, " accuracy: ", accuracy, " d: ", paste(vals, collapsee=", "), sep=""))
 }
 
-findOpt < function(s, type=2, d, tN=3) {
+findOpt <- function(s, type=2, d, tN=3) {
   max <- 0.0
   clone <- c(d)
   for(i in 1:9) {
@@ -127,13 +133,13 @@ findOpt < function(s, type=2, d, tN=3) {
 }
 
 tD <- double()
-tD[4] <- 0.1
-tD[3] <- 0.1
-tD[2] <- 0.1
+tD[4] <- 0.9
+tD[3] <- 0.9
+tD[2] <- 0.9
 tD[1] <- 1
 
-sample <-0.1
+sample <-0.01
 tD <- findOpt(sample, type=4, d=tD, 3)
 tD <- findOpt(sample, type=3, d=tD, 3)
 tD <- findOpt(sample, type=2, d=tD, 3)
-print(pastee(tD, collapse="|"))
+print(paste(tD, collapse="|"))

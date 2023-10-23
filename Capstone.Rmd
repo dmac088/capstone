@@ -1,0 +1,46 @@
+---
+title: "JHU Capstone - NLP"
+output: ioslides_presentation
+author: Dan Mackie
+date: "`r Sys.Date()`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Introduction
+
+This is an presentation of my implementation of a next word prediction application written in Shiny and published to RPubs. This presentation will cover the following:
+
+-   Describe the algorithm used
+-   Describe the model was tuned
+-   Considerations for further improvement
+
+The Siny application for this presentation can be found at the following URL
+
+-   <https://rpubs.com/dmac088/capstone>
+
+## Katz-Backoff prediction algorithm
+
+This next word prediction application has implemented the Katz-Backoff algorithm with 70% of the corpora used to train the model, and 30% left for validation and testing. A hash table was used containing N-gram probabilities, as it offers the best performance for an interactive user experience. The Katz-Backoff implementation works as follows.
+
+-   If an N-gram exists that matches the input, compute the result using maximum likelihood estimate (MLE) e.g. if user input is 3-gram "a case of" we might find a maximum likelyhood 4-Gram "a case of beer"
+
+-   If an N-gram does not exist the algorithm will back-off to the (N-1)-gram e.g. if user input is "a case of" and we don't find a 3-gram match, then we back-off to attempt a 2-gram match "case of"
+
+## Katz-Backoff model tuning
+
+The hardest part of the Katz-Backoff implementation is parameter tuning, in-particular finding optimal values for the ***probability mass discount**.* The probability mass discount factor defines the amount of mass that is paassed from higer-order N-Grams to lower order N-grams, for example a 4-Gram discount factor of 0.8 means that 20% of the probability mass is reserved for 3-Grams. In this implementation the following parameter values were found to be optimal:
+
+**Discount factor:** 4-Gram = 0.30, 3-Gram = 0.81, 2-Gram = 0.98, 1-Gram = 1
+
+**Model Accuracy (Top-3 words):** 25%
+
+## Application Implementation
+
+The implementation of this model is in R Shiny, to use the application simply type some content into the text area on the left hand side of the page, within seconds you should see the top 3 predicted words appear on the right hand side of the page, and a directed graph which showcases the predicted next words and subsequent next words. All the source code for this application can be found here:\
+\
+<https://github.com/dmac088/capstone>
+
+The model file loaded form the Shiny App: "m.RData"

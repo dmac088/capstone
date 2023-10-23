@@ -47,8 +47,8 @@ extractGramAsVector <- function(x, n, tokenizer) {
   return(lapply(tokenizer(x), splitCombine, n))
 }
 
-processData <- FALSE
-aggData <- FALSE
+processData <- TRUE
+aggData <- TRUE
 truncateData <- TRUE
 pTyp <- 0
 debug <- FALSE
@@ -76,7 +76,7 @@ processCorpus <- function(c, sub, b) {
 if(cutFile) {
   load(paste(wd, '/', masterCorpus, sep=''))
   
-  smpl <- sample(seq_along(c_all), length(c_all) * 0.7)
+  smpl <- sample(seq_along(c_all), length(c_all) * 1)
   nsmpl <- !(seq_along(c_all) %in% smpl)
   train <- c_all[smpl]
   test <- c_all[nsmpl]
@@ -120,7 +120,7 @@ if(processData) {
   NgramTokenizer <- function(x) { RWeka::NGramTokenizer(x, RWeka::Weka_control(min = n+1, max=n+1)) }
   
   firstStep <- 1
-  steps <- 30
+  steps <- 1
   
   for(s in firstStep:steps) {
     result <- hash()

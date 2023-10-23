@@ -89,6 +89,7 @@ shinyApp (
   server = function(input, output) {
     
     n <- 3
+    lim <- 1
     
     output$value <- renderPrint({
       req(input$inText)
@@ -109,7 +110,7 @@ shinyApp (
         return()
       }
       
-      p <- predict(m=model, s=gram, d=aD, n=n, itr=4, FALSE)
+      p <- predict(m=model, s=gram, d=aD, n=lim, itr=4, FALSE)
       vGrm <- rep(gram, n)
       vWrd <- p
       
