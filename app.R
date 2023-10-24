@@ -5,9 +5,9 @@ library(textstem)
 library(tm)
 library(igraph)
 
-wd          <- '/Users/danielmackie/Capstone'
-file <- paste(wd, '/', 'model', '/', 'v1', '/', 'm.RData', sep='')
-load(file)
+
+githubURL <- "https://github.com/dmac088/capstone/raw/main/m.RData"
+load(url(githubURL))
 
 gN <- function(x, n) {
   x <- unlist(x)
@@ -20,8 +20,8 @@ gTN <- function(x, n) {
 }
 
 aD <- double()
-aD[4] <- 0.30
-aD[3] <- 0.81
+aD[4] <- 0.9
+aD[3] <- 0.9
 aD[2] <- 0.98
 aD[1] <- 1
 
@@ -37,7 +37,7 @@ predict <- function(m, s, d, n, itr, hasParent=FALSE, result = list()) {
   g <- ifelse(itr == 1, paste(salt, unlist(t), sep=''), paste(unlist(t), collapse='_'))
   if(itr == 1) {
     result <- gTN(result, n * 2) 
-    wrd <- gN(unique(names(result)), n)
+    wrd <- unlist(lapply(gN(unique(names(result)), n), function(x) { ifelse(is.na(x), 'UNKNOWN', x) }))
     return(wrd)
   }
   if(has.key(key=g, hash=m)) {
@@ -78,8 +78,20 @@ shinyApp (
     sidebarPanel(
       textInput("inText", label="Enter text", value = NULL),
       helpText(
-        "You should see the next word prediction on the right."
-      )
+        "You should see the next word predictions on the right side 1-2 seconds after pressing the Submit button."
+      ),
+      submitButton(text = "Submit", icon = NULL, width = NULL),
+      helpText("\n"),
+      helpText("You can try the following quiz test cases."),
+      helpText("Quiz 2:"),
+      helpText("-\"and a case of\""),
+      helpText("-\"it would mean the\""),
+      helpText("-\"and make me the\""),
+      helpText("Quiz 3: "),
+      helpText("-\"from the bottom to the\""),
+      helpText("-\"hadn't time to take a\""),
+      helpText("Note: the accuracy is not perfect since only 70% of the corpora was reserved for training, also infrequent grams were removed to optimize model size for RPubs"),
+      
     ),
       mainPanel(
         verbatimTextOutput("value"),
@@ -89,7 +101,6 @@ shinyApp (
   server = function(input, output) {
     
     n <- 3
-    lim <- 1
     
     output$value <- renderPrint({
       req(input$inText)
@@ -110,7 +121,7 @@ shinyApp (
         return()
       }
       
-      p <- predict(m=model, s=gram, d=aD, n=lim, itr=4, FALSE)
+      p <- predict(m=model, s=gram, d=aD, n=n, itr=4, FALSE)
       vGrm <- rep(gram, n)
       vWrd <- p
       

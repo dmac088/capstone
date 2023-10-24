@@ -1,0 +1,14 @@
+name: capstone
+title: capstone
+username:
+account: dmac088
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 10292600
+bundleId: 7845152
+url: https://dmac088.shinyapps.io/capstone/
+when: 1698146406.86217
+lastSyncTime: 1698146406.86219
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: BackOffModel.R|Capstone.html|Capstone.qmd|Capstone.Rmd|CorpusPreparation.R|INSTRUCTIONS|m.RData|PrepTestData.R|README.md|TransformCorpus.R|ValidateModel.R

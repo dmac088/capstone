@@ -14,12 +14,12 @@ knitr::opts_chunk$set(echo = FALSE)
 This is an presentation of my implementation of a next word prediction application written in Shiny and published to RPubs. This presentation will cover the following:
 
 -   Describe the algorithm used
--   Describe the model was tuned
--   Considerations for further improvement
+-   Describe the model tuning process
+-   Describe the implementation in Shiny
 
-The Siny application for this presentation can be found at the following URL
+The Shiny application for this presentation can be found at the following URL
 
--   <https://rpubs.com/dmac088/capstone>
+-   <https://dmac088.shinyapps.io/shinyapp/>
 
 ## Katz-Backoff prediction algorithm
 
