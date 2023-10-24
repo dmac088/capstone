@@ -109,10 +109,14 @@ shinyApp (
     
     output$plot <- renderPlot({
       req(input$inText)
-      gram <- paste(tail(unlist(strsplit(input$inText, " +")), n), collapse=' ')
-      key3 <- paste(tail(unlist(strsplit(input$inText, " +")), n), collapse='_')
-      key2 <- paste(tail(unlist(strsplit(input$inText, " +")), n-1), collapse='_')
-      key1 <- paste(tail(unlist(strsplit(input$inText, " +")), n-2), collapse='_')
+      s <- tolower(input$inText)
+      s <- stripWhitespace(s)
+      s <- removePunctuation(s)
+      s <- lemmatize_words(s)
+      gram <- paste(tail(unlist(strsplit(s, " +")), n), collapse=' ')
+      key3 <- paste(tail(unlist(strsplit(s, " +")), n), collapse='_')
+      key2 <- paste(tail(unlist(strsplit(s, " +")), n-1), collapse='_')
+      key1 <- paste(tail(unlist(strsplit(s, " +")), n-2), collapse='_')
 
       if(!has.key(hash=model, key=key1) &
          !has.key(hash=model, key=key2) &
